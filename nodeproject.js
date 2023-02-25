@@ -9,10 +9,12 @@ express.use(exp.json())
 const courses = [
     {id:1, name: 'nodejs'},
     {id:2, name: 'mongodb'},
-    {id:3, name: 'express'}
+    {id:3, name: 'express'},
+    {id:3, name: 'api'}
 ]
 
 //SETTING THE GET REQUEST AND THE RESPONSE
+//GET REQUEST == READING
 express.get('/', (req,res) => {
     res.send('Hello world!!!')
 })
@@ -28,7 +30,7 @@ express.get('/api/courses/:id', (req, res) => {
     res.send(list)
 }) 
 
-///POST REQUEST
+///POST REQUEST === UPDATING
 express.post('/api/courses', (req, res) => {
     const { error } = validatecourse(req.body)
     if (error){
@@ -43,6 +45,7 @@ express.post('/api/courses', (req, res) => {
 })
 
 //LOOK UP COURSE, VALIDATE, RETURN ERROR  WHEN NECESSARY, UPDATE 
+//PUT REQUEST === CREATING
 express.put('/api/courses/:id', (req, res) => {
     
     const list = courses.find(c => c.id === parseInt(req.params.id))
@@ -67,6 +70,7 @@ function validatecourse(list){
     return Joi.validate(list, schema)
 }
 
+//DELETE REQUEST === DELETING
 express.delete('/api/courses/:id', (req, res) => {
     const list = courses.find(c => c.id === parseInt(req.params.id))
     if (!list) return res.status(404).send('The course with given id was not found')
